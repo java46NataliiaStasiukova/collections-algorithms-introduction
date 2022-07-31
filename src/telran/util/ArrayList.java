@@ -15,7 +15,7 @@ public ArrayList(int capacity) {
 public ArrayList() {
 	this(DEFAULT_CAPACITY);
 }
-private class ArrayListIterator<T> implements Iterator<T> {
+private class ArrayListIterator implements Iterator<T> {
 
 	@Override
 	public boolean hasNext() {
@@ -46,7 +46,13 @@ private class ArrayListIterator<T> implements Iterator<T> {
 		//that is new array won't be created - essence of remove
 		//to use System.arraycopy
 		// size--
-		int index = findIndex(pattern);
+		
+		int index = -1;
+		for(int i = 0; i < size; i++) {
+			if(array[i].equals(pattern)) {
+				index = i;
+			}
+		}
 		if(index < 0) {
 			return false;
 		}
@@ -57,14 +63,6 @@ private class ArrayListIterator<T> implements Iterator<T> {
 		size--;
 		array = temp;
 		return true;
-	}
-	private int findIndex(Object pattern) { 
-		for(int i = 0; i < array.length; i++) {
-			if(array[i] == pattern) {
-				return i;
-			}
-		}
-		return -1;
 	}
 
 	@Override
@@ -77,8 +75,12 @@ private class ArrayListIterator<T> implements Iterator<T> {
 
 	@Override
 	public boolean contains(Object pattern) {
-		
-		return findIndex(pattern) > 0 ? true : false;
+		for(int i = 0; i < size; i++) {
+			if(array[i].equals(pattern)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
