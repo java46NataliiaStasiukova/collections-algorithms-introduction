@@ -17,17 +17,19 @@ public class LinkedList<T> implements List<T> {
 	private int size;
 	
 	private class LinkedListIterator implements Iterator<T> {
-		int currentInd = 0;
+		Node<T> currentInd = head;
 		@Override
 		public boolean hasNext() {
 
-			return get(currentInd) != null;
+			return currentInd != null;
 		}
 
 		@Override
 		public T next() {
-			// TODO
-			return get(currentInd++);
+			T res  = currentInd.obj;
+			currentInd = currentInd.next;
+			return res;
+
 		}
 		
 	}
@@ -165,13 +167,13 @@ public class LinkedList<T> implements List<T> {
 		}
 		return res;
 	}
-
+	
 	private void removeByIndex(int index) {
 		Node<T> currentNode = getNodeIndex(index);
-		if(currentNode == head) {
+		if(currentNode.equals(head)) {
 			head = currentNode.next;
 		}
-		else if(currentNode == tail) {
+		else if(currentNode.equals(tail)) {
 			tail = currentNode.prev;
 		}
 		else {
@@ -181,11 +183,12 @@ public class LinkedList<T> implements List<T> {
 		}
 		size--;
 	}
+
 	@Override
 	public int indexOf(Object pattern) {
 		Node<T> temp = head;
 		int index = 0;
-		while(temp.obj != pattern) {
+		while(!temp.obj.equals(pattern)) {
 			temp = temp.next;
 			index++;
 			if(temp == null) {
@@ -199,7 +202,7 @@ public class LinkedList<T> implements List<T> {
 	public int lastIndexOf(Object pattern) {
 		Node<T> temp = tail;
 		int index = size - 1;
-		while(temp.obj != pattern) {
+		while(!temp.obj.equals(pattern)) {
 			temp = temp.prev;
 			index--;
 			if(temp == null) {
