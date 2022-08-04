@@ -1,6 +1,12 @@
 package telran.util;
 
 public interface List<T> extends Collection<T> {
+
+	default boolean contains(Object pattern) {
+		return indexOf(pattern) >= 0;
+	}
+
+	/***************************************************/
 	/**
 	 * insert object at the given index
 	 * 
@@ -37,6 +43,6 @@ public interface List<T> extends Collection<T> {
 	 * @param index
 	 * @return the number at the given index for index [0, size - 1] or null for wrong index value 
 	 */
-	Integer get(int index);
+	T get(int index);
 
 }

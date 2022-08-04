@@ -8,6 +8,7 @@ public class ArrayList<T> implements List<T> {
 private static final int DEFAULT_CAPACITY = 16;
 private T[] array;
 private int size;
+
 @SuppressWarnings("unchecked")
 public ArrayList(int capacity) {
 	array = (T[]) new Object[capacity];
@@ -16,17 +17,17 @@ public ArrayList() {
 	this(DEFAULT_CAPACITY);
 }
 private class ArrayListIterator implements Iterator<T> {
-
+	int currentInd = 0;
 	@Override
 	public boolean hasNext() {
-		// TODO Auto-generated method stub
-		return false;
+		// TODO
+		return currentInd < size;
 	}
 
 	@Override
 	public T next() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO
+		return  array[currentInd++];
 	}
 	
 }
@@ -40,13 +41,7 @@ private class ArrayListIterator implements Iterator<T> {
 	}
 
 	@Override
-	public boolean remove(Object pattern) {
-		// TODO
-		//array reallocation isn't done
-		//that is new array won't be created - essence of remove
-		//to use System.arraycopy
-		// size--
-		
+	public boolean remove(Object pattern) {		
 		int index = -1;
 		for(int i = 0; i < size; i++) {
 			if(array[i].equals(pattern)) {
@@ -56,31 +51,26 @@ private class ArrayListIterator implements Iterator<T> {
 		if(index < 0) {
 			return false;
 		}
-		T[] temp;// = (T[]) new Object[array.length];
-		temp = Arrays.copyOf(array, array.length);
-		System.arraycopy(array, 0, temp, 0, index);
-		System.arraycopy(array, index + 1, temp, index, temp.length - index - 1);
+		System.arraycopy(array, index + 1, array, index, size - index);
 		size--;
-		array = temp;
 		return true;
 	}
+	
+	
 
 	@Override
 	public boolean removeIf(Predicate<T> predicate) {
-		//NOT DONE YET
-		
-		
-		return false;
-	}
-
-	@Override
-	public boolean contains(Object pattern) {
-		for(int i = 0; i < size; i++) {
-			if(array[i].equals(pattern)) {
-				return true;
+		int oldSize = size;
+		int i = 0;
+		while(i < size) {
+			if(predicate.test(array[i])) {
+				remove(i);
+			}
+			else {
+				i++;
 			}
 		}
-		return false;
+		return oldSize > size;
 	}
 
 	@Override
@@ -89,8 +79,6 @@ private class ArrayListIterator implements Iterator<T> {
 		return size;
 	}
 	
-	
-
 	@Override
 	public Iterator<T> iterator() {
 		
@@ -99,20 +87,14 @@ private class ArrayListIterator implements Iterator<T> {
 
 	@Override
 	public boolean add(int index, T obj) {
-//if size == array.length you should do reallocation see the method add
-//if size < array.length new array won't be created - essence of the algorithm
-		T[] temp;
 		if(index < 0) {
 			return false;
 		}
 		if(array.length == size) {
 			array = Arrays.copyOf(array, size * 2);
 		}
-		temp = Arrays.copyOf(array, array.length + 1);
-		System.arraycopy(array, 0, temp, 0, index);
-		System.arraycopy(array, index, temp, index + 1, array.length - index);
-		temp[index] = obj;
-		array = temp;
+		System.arraycopy(array, index, array, index + 1, size - index);
+		array[index] = obj;
 		size++;
 		
 		return true;
@@ -120,45 +102,47 @@ private class ArrayListIterator implements Iterator<T> {
 
 	@Override
 	public T remove(int index) {
+		T res = null;
 		if(index < 0) {
 			return null;
 		}
-		T res = array[index];
-		T[] temp;
-		temp = Arrays.copyOf(array, array.length);
-		System.arraycopy(array, 0, temp, 0, index);
-		System.arraycopy(array, index + 1, temp, index, temp.length - index - 1);
+		for(int i = 0; i < size; i++) {
+			if(i == index) {
+				res = array[index];
+				System.arraycopy(array, index + 1, array, index, size - index);
+			}
+		}
 		size--;
-		array = temp;
 		return res;
 	}
 
 	@Override
 	public int indexOf(Object pattern) {
-		for(int i = 0; i < array.length; i++) {
-			if(array[i] == pattern) {
+		for(int i = 0; i < size; i++) {
+			if(array[i].equals(pattern)) {
 				return i;
 			}
 		}
 		
-		return 0;
+		return -1;
 	}
 
 	@Override
 	public int lastIndexOf(Object pattern) {
-		for(int i = array.length - 1; i > 0; i--) {
-			if(array[i] == pattern) {
+		for(int i = size - 1; i > 0; i--) {
+			if(array[i].equals(pattern)) {
 				return i;
 			}
 		}
 		
-		return 0;
+		return -1;
 	}
+	
 	@Override
-	public Integer get(int index) {
-		for(int i = 0; i < array.length; i++) {
+	public T get(int index) {
+		for(int i = 0; i < size; i++) {
 			if(i == index) {
-				return (Integer) array[i];
+				return array[i];
 			}
 		}
 		return null;

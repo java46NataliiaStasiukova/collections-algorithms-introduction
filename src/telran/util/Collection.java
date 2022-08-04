@@ -45,29 +45,26 @@ public interface Collection<T> extends Iterable<T> {
 	 * @return regular Java array containing all the collection object
 	 */
 	default T[] toArray(T[] ar) {
-		//TODO
-		// write the default method implementation based on the iterating
-		//NOT DONE YET
-//		T[] array;
-//		array = (T[]) new Object[size()];
-		Iterator<T> it = iterator();
-		if(ar.length < size()) {
-//			array = Arrays.copyOf(ar, size());
-//			return array;
-		}
-		if(ar.length == size()) {
-			
-		}
-		if(ar.length > size()) {
-			
-		}
 		
-		//TODO fill array by iterating 
+		// write the default method implementation based on the iterating
+		Iterator<T> it = iterator();
+		int size = size();
+		if (ar.length < size) {
+			ar = Arrays.copyOf(ar, size);
+		} else if (ar.length > size) {
+			for(int i = size; i < ar.length; i++) {
+				ar[i] = null;
+			}
+		}
+		int ind = 0;
+		while(it.hasNext()) {
+			ar[ind++] = it.next();
+		}
 		//if ar.length < size then you should create new array of type T with proper length(consider method Arrays.copyOf)
 		//if ar.length == size then you just fill the given array and reference to the same array will be returned
 		//if ar'length > size then you fill the given array and rest part should be filled by null's and 
 		// reference to the same array will be returned
-		return null;
+		return ar;
 	}
 
 }
