@@ -1,7 +1,7 @@
 package telran.util;
 
 import java.util.Iterator;
-import java.util.function.Predicate;
+import java.util.NoSuchElementException;
 
 public class LinkedList<T> implements List<T> {
 	private static class Node<T> {
@@ -17,21 +17,38 @@ public class LinkedList<T> implements List<T> {
 	private int size;
 	
 	private class LinkedListIterator implements Iterator<T> {
-		Node<T> currentInd = head;
+		Node<T> current = head;
+		boolean flNext = false;
 		@Override
 		public boolean hasNext() {
 
-			return currentInd != null;
+			return current != null;
 		}
 
 		@Override
 		public T next() {
-			T res  = currentInd.obj;
-			currentInd = currentInd.next;
+			if(!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			T res  = current.obj;
+			current = current.next;
+			flNext = true;
 			return res;
 
 		}
-		
+		@Override
+		public void remove() {
+			if(!flNext) {
+				throw new IllegalStateException();
+			}
+			if(current == null) {
+				removeNode(tail);
+				
+			} else {
+				removeNode(current.prev);
+			}
+			flNext = false;
+		}
 	}
 
 	@Override
@@ -54,28 +71,45 @@ public class LinkedList<T> implements List<T> {
 			if(index < 0) {
 				return false;
 			}
-			removeByIndex(index);
+			Node<T> node = getNodeIndex(index);
+			removeNode(node);
 		}
 		return true;
 	}
-
-	@Override
-	public boolean removeIf(Predicate<T> predicate) {
-		int oldSize = size;
-		T temp = get(0);
-		int index = 0;
-		while(index < size) {
-			if(predicate.test(temp)) {
-				remove(index);
-			} else {
-				index++;
-				temp = get(index);
-			}	
+	
+	private void removeNode(Node<T> currentNode) {//T
+		if(currentNode == head) {
+			removeHead(currentNode);
 		}
-		
-		return oldSize > size;
+		else if(currentNode == tail) {
+			removeTail(currentNode);
+		}
+		else {
+			removeMiddle(currentNode);
+		}
+		size--;
+		//return currentNode.obj;
 	}
 
+	private void removeHead(Node<T> currentNode) {
+		if(head == null) {
+			tail = head;
+		}
+		head = currentNode.next;
+		head.prev = null;
+		
+	}
+	private void removeTail(Node<T> currentNode) {
+		tail = currentNode.prev;
+		tail.next = null;
+		
+	}
+	private void removeMiddle(Node<T> currentNode) {
+		Node<T> afterNode = currentNode.next;
+		currentNode = currentNode.prev;
+		currentNode.next = afterNode;
+		
+	}
 	@Override
 	public boolean contains(Object pattern) {
 
@@ -111,7 +145,6 @@ public class LinkedList<T> implements List<T> {
 	}
 
 	private void addIndex(int index, T obj) {
-		size++;
 		Node<T> newNode = new Node<>(obj);
 		Node<T> afterNode = getNodeIndex(index);
 		Node<T> beforeNode = afterNode.prev;
@@ -119,7 +152,7 @@ public class LinkedList<T> implements List<T> {
 		afterNode.prev = newNode;
 		beforeNode.next = newNode;
 		newNode.prev = beforeNode;
-		
+		size++;
 	}
 
 	private Node<T> getNodeIndex(int index) {
@@ -162,26 +195,11 @@ public class LinkedList<T> implements List<T> {
 	public T remove(int index) {
 		T res = null;
 		if (index >=0 && index < size) {
-			res = get(index);
-			removeByIndex(index);
+			Node<T> node = getNodeIndex(index);
+			res = node.obj;
+			removeNode(node); //res =
 		}
 		return res;
-	}
-	
-	private void removeByIndex(int index) {
-		Node<T> currentNode = getNodeIndex(index);
-		if(currentNode.equals(head)) {
-			head = currentNode.next;
-		}
-		else if(currentNode.equals(tail)) {
-			tail = currentNode.prev;
-		}
-		else {
-			Node<T> afterNode = currentNode.next;
-			currentNode = currentNode.prev;
-			currentNode.next = afterNode;
-		}
-		size--;
 	}
 
 	@Override
@@ -221,5 +239,32 @@ public class LinkedList<T> implements List<T> {
 		}
 		return res;
 	}
+	/**
+	 * performs reversing of the objects order
+	 * current - {10, -5, 30} - after reverse - {30, -5, 10}
+	 * +to write test
+	 */
+	public void reverse() {//void
+		//TODO
+	}
+	
+//	public Node<T> reverse(){//Node<T> head
+//		if(head == null) {
+//			return head;
+//		}
+//		Node<T> current = head;
+//		Node<T> previous = null;
+//		Node<T> next = null;
+//		
+//		while(current != null){
+//			next = current.next;
+//			current.next = previous;
+//			previous = current;
+//			current = next;
+//			
+//		}
+//		return previous;
+//	}
+	
 
 }

@@ -24,7 +24,17 @@ public interface Collection<T> extends Iterable<T> {
 	 * @param predicate
 	 * @return true if a collection has been updated
 	 */
-	boolean removeIf(Predicate<T> predicate);
+	default boolean removeIf(Predicate<T> predicate) {
+		int sizeOld =size();
+		Iterator<T> it = iterator();
+		while(it.hasNext()) {
+			T obj = it.next();
+			if (predicate.test(obj)) {
+				it.remove();
+			}
+		}
+		return sizeOld > size();
+	}
 	/*************************************************/
 	/**
 	 * 
@@ -45,8 +55,6 @@ public interface Collection<T> extends Iterable<T> {
 	 * @return regular Java array containing all the collection object
 	 */
 	default T[] toArray(T[] ar) {
-		
-		// write the default method implementation based on the iterating
 		Iterator<T> it = iterator();
 		int size = size();
 		if (ar.length < size) {
