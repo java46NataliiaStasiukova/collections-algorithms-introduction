@@ -136,9 +136,40 @@ private class ArrayListIterator implements Iterator<T> {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public boolean removeIf(Predicate<T> predicate) {
+		int sizeOld =size();
+
+	      // find first element to delete
+        int index = 0;
+        while (true) {
+            if (index == sizeOld) {
+                return false;
+            }
+            T element = array[index];
+            if (predicate.test(element)) {
+                break;
+            }
+            index++;
+        }
+        
+        // skip and copy
+        int tempIndex = index;
+        while (++index < sizeOld) {
+            T e = array[index];
+            if (!predicate.test(e)) {
+                array[tempIndex++] = e;
+            }
+        }
+        
+        // null out the tail of array
+        while (tempIndex < sizeOld) {
+            array[tempIndex++] = null;
+            size--;
+        }
+
+      return sizeOld > size();
 
 		//TODO
 		//Write method for removing all objects matching the given 
@@ -146,7 +177,7 @@ private class ArrayListIterator implements Iterator<T> {
 		//bonus: with no additional arrays (playing with two indexes)
 		
 		//take into consideration a possible memory leak (reference from index == size should be null's)
-		return false;
+		
 	}
-
+  //Write method for removing all objects matching the given predicate with O[N] 
 }

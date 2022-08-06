@@ -77,7 +77,7 @@ public class LinkedList<T> implements List<T> {
 		return true;
 	}
 	
-	private void removeNode(Node<T> currentNode) {//T
+	private void removeNode(Node<T> currentNode) {
 		if(currentNode == head) {
 			removeHead(currentNode);
 		}
@@ -88,15 +88,15 @@ public class LinkedList<T> implements List<T> {
 			removeMiddle(currentNode);
 		}
 		size--;
-		//return currentNode.obj;
 	}
 
 	private void removeHead(Node<T> currentNode) {
-		if(head == null) {
-			tail = head;
+		if(head == tail) {
+			head = tail = null;
+		} else {
+			head = head.next;
+			head.prev = null;
 		}
-		head = currentNode.next;
-		head.prev = null;
 		
 	}
 	private void removeTail(Node<T> currentNode) {
@@ -246,25 +246,16 @@ public class LinkedList<T> implements List<T> {
 	 */
 	public void reverse() {//void
 		//TODO
+		Node<T> previos = null;
+		Node<T> current = head;
+		Node<T> nextNode = null;
+		while(current != null) {
+			nextNode = current.next;
+			current.next = previos;
+			previos = current;
+			current = nextNode;
+		}
+		head = previos;
 	}
-	
-//	public Node<T> reverse(){//Node<T> head
-//		if(head == null) {
-//			return head;
-//		}
-//		Node<T> current = head;
-//		Node<T> previous = null;
-//		Node<T> next = null;
-//		
-//		while(current != null){
-//			next = current.next;
-//			current.next = previous;
-//			previous = current;
-//			current = next;
-//			
-//		}
-//		return previous;
-//	}
-	
 
 }

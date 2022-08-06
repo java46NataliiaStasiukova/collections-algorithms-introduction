@@ -10,5 +10,7 @@ public class LinkedListTest extends ListTests {
 		
 		return new LinkedList<>();
 	}
+	
+
 
 }
