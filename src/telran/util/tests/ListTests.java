@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import telran.util.LinkedList;
 import telran.util.List;
 
 abstract class ListTests extends CollectionTests {
@@ -18,18 +17,6 @@ abstract class ListTests extends CollectionTests {
 		super.setUp(); // content of the collection is {10, -5, 13, 20, 40, 15} from the setup 
 		list = (List<Integer>)collection; //
 	}
-	
-	@Test
-	void reverseTest() {
-		LinkedList<Integer> linkedList = new LinkedList<>();
-		linkedList.add(10);
-		linkedList.add(-5);
-		linkedList.add(30);
-		linkedList.reverse();
-		Integer[] array = linkedList.toArray(new Integer[0]);
-		Integer[] expected = {30, -5, 10};
-		assertArrayEquals(expected, array);
- 	}
 	
 	@Test
 	void addIndexTest() {

@@ -157,9 +157,9 @@ private class ArrayListIterator implements Iterator<T> {
         // skip and copy
         int tempIndex = index;
         while (++index < sizeOld) {
-            T e = array[index];
-            if (!predicate.test(e)) {
-                array[tempIndex++] = e;
+            T element = array[index];
+            if (!predicate.test(element)) {
+                array[tempIndex++] = element;
             }
         }
         
