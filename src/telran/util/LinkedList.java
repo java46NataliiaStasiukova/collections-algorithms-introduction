@@ -66,23 +66,24 @@ public class LinkedList<T> implements List<T> {
 	}
 	@Override
 	public boolean remove(Object pattern) {
+		boolean res = false;
 		if(head != null) {
 			int index = indexOf(pattern);
-			if(index < 0) {
-				return false;
+			if(index >= 0) {
+				res = true;
+				Node<T> node = getNodeIndex(index);
+				removeNode(node);
 			}
-			Node<T> node = getNodeIndex(index);
-			removeNode(node);
 		}
-		return true;
+		return res;
 	}
 	
 	private void removeNode(Node<T> currentNode) {
 		if(currentNode == head) {
-			removeHead(currentNode);
+			removeHead();
 		}
 		else if(currentNode == tail) {
-			removeTail(currentNode);
+			removeTail();
 		}
 		else {
 			removeMiddle(currentNode);
@@ -90,8 +91,9 @@ public class LinkedList<T> implements List<T> {
 		size--;
 	}
 
-	private void removeHead(Node<T> currentNode) {
-		if(head == tail) {
+
+	private void removeHead() {
+		if (head == tail) {
 			head = tail = null;
 		} else {
 			head = head.next;
@@ -99,8 +101,8 @@ public class LinkedList<T> implements List<T> {
 		}
 		
 	}
-	private void removeTail(Node<T> currentNode) {
-		tail = currentNode.prev;
+	private void removeTail() {
+		tail = tail.prev;
 		tail.next = null;
 		
 	}
@@ -248,7 +250,7 @@ public class LinkedList<T> implements List<T> {
 		//TODO
 		Node<T> previos = null;
 		Node<T> current = head;
-		Node<T> nextNode = null;
+		Node<T> nextNode = null;//{10, 5, 3}
 		while(current != null) {
 			nextNode = current.next;
 			current.next = previos;

@@ -140,7 +140,6 @@ private class ArrayListIterator implements Iterator<T> {
 	@Override
 	public boolean removeIf(Predicate<T> predicate) {
 		int sizeOld =size();
-
 	      // find first element to delete
         int index = 0;
         while (true) {
@@ -152,8 +151,7 @@ private class ArrayListIterator implements Iterator<T> {
                 break;
             }
             index++;
-        }
-        
+        }     
         // skip and copy
         int tempIndex = index;
         while (++index < sizeOld) {
@@ -162,7 +160,6 @@ private class ArrayListIterator implements Iterator<T> {
                 array[tempIndex++] = element;
             }
         }
-        
         // null out the tail of array
         while (tempIndex < sizeOld) {
             array[tempIndex++] = null;
@@ -170,14 +167,6 @@ private class ArrayListIterator implements Iterator<T> {
         }
 
       return sizeOld > size();
-
-		//TODO
-		//Write method for removing all objects matching the given 
-		//predicate with O[N] 
-		//bonus: with no additional arrays (playing with two indexes)
-		
-		//take into consideration a possible memory leak (reference from index == size should be null's)
-		
 	}
-  //Write method for removing all objects matching the given predicate with O[N] 
+	
 }
