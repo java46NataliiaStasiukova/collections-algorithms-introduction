@@ -107,9 +107,10 @@ public class LinkedList<T> implements List<T> {
 		
 	}
 	private void removeMiddle(Node<T> currentNode) {
-		Node<T> afterNode = currentNode.next;
-		currentNode = currentNode.prev;
-		currentNode.next = afterNode;
+		Node<T> nodeAfter = currentNode.next;
+		Node<T> nodeBefore = currentNode.prev;
+		nodeBefore.next = nodeAfter;
+		nodeAfter.prev = nodeBefore;
 		
 	}
 	@Override
@@ -204,18 +205,31 @@ public class LinkedList<T> implements List<T> {
 		return res;
 	}
 
+//	@Override
+//	public int indexOf(Object pattern) {
+//		Node<T> temp = head;
+//		int index = 0;
+//		while(!temp.obj.equals(pattern)) {
+//			temp = temp.next;
+//			index++;
+//			if(temp == null) {
+//				return -1;
+//			}
+//		}
+//		return index;
+//	}
+	
 	@Override
 	public int indexOf(Object pattern) {
-		Node<T> temp = head;
-		int index = 0;
-		while(!temp.obj.equals(pattern)) {
-			temp = temp.next;
-			index++;
-			if(temp == null) {
-				return -1;
+		int res = -1;
+		int ind = 0;
+		for(Node<T> current = head; current != null; current = current.next, ind++) {
+			if (current.obj.equals(pattern)) {
+				res = ind;
+				break;
 			}
 		}
-		return index;
+		return res;
 	}
 
 	@Override
@@ -250,7 +264,8 @@ public class LinkedList<T> implements List<T> {
 		//TODO
 		Node<T> previos = null;
 		Node<T> current = head;
-		Node<T> nextNode = null;//{10, 5, 3}
+		Node<T> nextNode = null;
+		tail = head;
 		while(current != null) {
 			nextNode = current.next;
 			current.next = previos;
