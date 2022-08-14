@@ -200,36 +200,23 @@ public class LinkedList<T> implements List<T> {
 		if (index >=0 && index < size) {
 			Node<T> node = getNodeIndex(index);
 			res = node.obj;
-			removeNode(node); //res =
+			removeNode(node); 
 		}
 		return res;
 	}
 
-//	@Override
-//	public int indexOf(Object pattern) {
-//		Node<T> temp = head;
-//		int index = 0;
-//		while(!temp.obj.equals(pattern)) {
-//			temp = temp.next;
-//			index++;
-//			if(temp == null) {
-//				return -1;
-//			}
-//		}
-//		return index;
-//	}
-	
 	@Override
 	public int indexOf(Object pattern) {
-		int res = -1;
-		int ind = 0;
-		for(Node<T> current = head; current != null; current = current.next, ind++) {
-			if (current.obj.equals(pattern)) {
-				res = ind;
-				break;
+		Node<T> temp = head;
+		int index = 0;
+		while(!temp.obj.equals(pattern)) {
+			temp = temp.next;
+			index++;
+			if(temp == null) {
+				return -1;
 			}
 		}
-		return res;
+		return index;
 	}
 
 	@Override
@@ -255,12 +242,8 @@ public class LinkedList<T> implements List<T> {
 		}
 		return res;
 	}
-	/**
-	 * performs reversing of the objects order
-	 * current - {10, -5, 30} - after reverse - {30, -5, 10}
-	 * +to write test
-	 */
-	public void reverse() {//void
+
+	public void reverse() {
 		//TODO
 		Node<T> previos = null;
 		Node<T> current = head;

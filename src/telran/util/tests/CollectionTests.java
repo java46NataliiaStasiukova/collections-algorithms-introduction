@@ -21,6 +21,7 @@ abstract class CollectionTests {
 	protected abstract Collection<Integer> createCollection();
 
 	Integer expected[] = { 10, -5, 13, 20, 40, 15 };
+	//Integer expected[] = { 10, -5, 13, 20, 40, 15, 1, 14, 133, 156, -3,12 };
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -146,4 +147,3 @@ abstract class CollectionTests {
 	}
 
 }
-

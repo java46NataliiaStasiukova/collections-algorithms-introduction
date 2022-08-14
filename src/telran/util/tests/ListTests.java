@@ -1,4 +1,3 @@
-
 package telran.util.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +16,7 @@ abstract class ListTests extends CollectionTests {
 		super.setUp(); // content of the collection is {10, -5, 13, 20, 40, 15} from the setup 
 		list = (List<Integer>)collection; //
 	}
-	
+
 	@Test
 	void addIndexTest() {
 		
@@ -62,6 +61,6 @@ abstract class ListTests extends CollectionTests {
 		assertEquals(list.size() - 1, list.lastIndexOf(10));
 		assertEquals(-1, list.lastIndexOf(-10));
 	}
-	
+
 }
 

@@ -26,6 +26,6 @@ public class LinkedListTest extends ListTests {
 		linkedList.add(100);
 		linkedList.reverse();
 		assertArrayEquals(expected2, linkedList.toArray(new Integer[0]));
-	}	
+	}
 
 }

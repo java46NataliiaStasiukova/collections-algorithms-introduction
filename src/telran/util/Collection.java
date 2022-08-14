@@ -55,6 +55,8 @@ public interface Collection<T> extends Iterable<T> {
 	 * @return regular Java array containing all the collection object
 	 */
 	default T[] toArray(T[] ar) {
+		
+		// write the default method implementation based on the iterating
 		Iterator<T> it = iterator();
 		int size = size();
 		if (ar.length < size) {
@@ -74,6 +76,5 @@ public interface Collection<T> extends Iterable<T> {
 		// reference to the same array will be returned
 		return ar;
 	}
-
 }
 
