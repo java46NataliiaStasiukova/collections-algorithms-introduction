@@ -25,6 +25,8 @@ public class LineRecursion {
 		if(b == 0) {
 			return 1;
 		}
+		if(a < 0) {
+		}
 
 		return multiply(a, (int) pow(a, b - 1)) ;
 		
@@ -33,8 +35,8 @@ public class LineRecursion {
 		if(b == 0) {
 			return 0;
 		} 
-		if(a < 0) {
-			a = -a;
+		if(b < 0) {
+			return a + multiply(a,b + 1);
 		}
 
 		return a + multiply(a,b - 1);
@@ -67,8 +69,7 @@ public class LineRecursion {
 	 * @return sum of all numbers
 	 */
 	public static int sum(int ar[]) {
-		//TODO
-		//no cycles
+		
 		return sum(0, ar);
 	}
 	private static int sum(int firstIndex, int[] ar) {
