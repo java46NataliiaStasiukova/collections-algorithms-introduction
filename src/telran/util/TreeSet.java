@@ -43,8 +43,8 @@ public class TreeSet<T> implements SortedSet<T> {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
-			T res = current.obj;
 			prevNode = current;
+			T res = current.obj;
 			updateCurrent();
 			flNext = true;
 			return res;
@@ -65,21 +65,15 @@ public class TreeSet<T> implements SortedSet<T> {
 		@Override
 		public void remove() {
 			//TODO
-			if (!hasNext()) {
-				throw new UnsupportedOperationException();
-			}
-			if(!flNext) {
+			if (!flNext) {
 				throw new IllegalStateException();
-			}	
-			if(isJunction(prevNode)) {
-				removeNode(prevNode);
-				prevNode = current;	
-			} else {
-				removeNode(prevNode);	
 			}
+			if (isJunction(prevNode)) {
+				current = prevNode;
+			}
+			removeNode(prevNode);
 			flNext = false;
 		}
-
 	}
 	public TreeSet(Comparator<T> comp) {
 		this.comp = comp;
@@ -90,27 +84,70 @@ public class TreeSet<T> implements SortedSet<T> {
 	}
 	@Override
 	public boolean add(T obj) {
-		Node<T> parent = getNodeOrParent(obj);
-		boolean res = false;
-		int compRes = 0;
-		if (parent == null || (compRes = comp.compare(obj, parent.obj)) != 0) {
-			//obj doesn't exist
-			Node<T> newNode = new Node<>(obj);
-			if (parent == null) {
-				//added first element that is the root
-				root = newNode;
-			} else if(compRes > 0) {
-				parent.right = newNode;
-			} else {
-				parent.left = newNode;
-			}
-			res = true;
-			newNode.parent = parent;
+		//TODO
+		//no cycles allowed
+		Node<T> newNode = new Node<>(obj);
+		boolean res = add(root, newNode);
+		if(res) {
 			size++;
 		}
+//		Node<T> parent = getNodeOrParent(obj);
+//		boolean res = false;
+//		int compRes = 0;
+//		if (parent == null || (compRes = comp.compare(obj, parent.obj)) != 0) {
+//			//obj doesn't exist
+//			Node<T> newNode = new Node<>(obj);
+//			if (parent == null) {
+//				//added first element that is the root
+//				root = newNode;
+//			} else if(compRes > 0) {
+//				parent.right = newNode;
+//			} else {
+//				parent.left = newNode;
+//			}
+//			res = true;
+//			newNode.parent = parent;
+//			size++;
+//		}
 		return res;
 	}
 
+	private boolean add(Node<T> parent, Node<T> newNode) {
+		boolean res = true;
+		if(parent == null) {
+			this.root = newNode;
+		} else {
+			int resComp = comp.compare(newNode.obj, parent.obj);
+			if(resComp == 0) {
+				res = false;
+			} else {
+				if(resComp < 0) {
+					if(parent.left == null) {
+						insert(parent, newNode, true);// new node inserted to left from parent.
+					} else {
+						add(parent.left, newNode);
+					}
+				} else {
+					if(parent.right == null) {
+						insert(parent, newNode, true);// new node inserted to right from parent.
+					} else {
+						add(parent.right, newNode);
+				}
+			}
+		}
+		
+	}
+		
+		return res;
+}
+	private void insert(Node<T> parent, Node<T> newNode, boolean isLeft) {
+		if(isLeft) {
+			parent.left = newNode;
+		} else {
+			parent.right = newNode;
+		}
+		newNode.parent = parent;
+	}
 	private Node<T> getNodeOrParent(T obj) {
 		Node<T> current = root;
 		Node<T> parent = null;
@@ -147,46 +184,28 @@ public class TreeSet<T> implements SortedSet<T> {
 	}
 	
 	private void removeJunctionNode(Node<T> node) {
-		Node<T> succ = node.right;
-		while(succ.left != null) {
-			succ = succ.left;
-		}
-		node.obj = succ.obj;
+		Node<T> substitution = getLeastNodeFrom(node.right);
+		node.obj = substitution.obj;
+		removeNonJunctionNode(substitution);
 	}
 	
 	private void removeNonJunctionNode(Node<T> node) {
-		Node<T> tempNode = node;
-	if(node.parent == null) {
-			root = node = null;
+		Node<T> child = node.left == null ? node.right : node.left;
+		Node<T> parent = node.parent;
+		if(parent == null) {
+			root = child;
+		} else {
+			if (parent.left == node) {
+				parent.left = child;
+			} else {
+				parent.right = child;
+			}
 		}
-	    if (node.right == null && node.left == null)  {
-	    	node = null;
-	    	}
-	    else if(node.right == null)  {
-	        tempNode = node.left;
-	        tempNode.parent = node.parent;
-	        node = null;  
-	    } else if (node.left == null ) {
-	    	tempNode = node.right;	
-		    tempNode.parent = node.parent;
-		    node = null;
-	    }
-}
-//		if(node.left == null && node.right == null) {
-//			//if(comp.compare(node.obj, node.parent.left.obj) == 0) {
-//			if(node.parent.right == null) {	
-//				node.parent.left = null;
-//			} else {
-//				node.parent.right = null;
-//			}
-//		}
-//		if(node.left == null && node.right != null) {
-//			node.parent.right = node.right;
-//		} else {
-//			node.parent.left = node.left;
-//		}
-//
-//	}
+		if (child != null) {
+			child.parent = parent;
+		}
+	}		
+	
 	private void removeNode(Node<T> node) {
 		if(isJunction(node)) {
 			removeJunctionNode(node);

@@ -1,3 +1,5 @@
+
+
 package telran.util.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +23,6 @@ abstract class CollectionTests {
 	protected abstract Collection<Integer> createCollection();
 
 	Integer expected[] = { 10, -5, 13, 20, 40, 15 };
-	//Integer expected[] = { 10, -5, 13, 20, 40, 15, 1, 14, 133, 156, -3,12 };
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -131,7 +132,7 @@ abstract class CollectionTests {
 
 	private void fillLargeCollection() {
 		for (int i = 0; i < N_NUMBERS; i++) {
-			collection.add(i);
+			collection.add((int)(Math.random()*Integer.MAX_VALUE));
 		}
 
 	}
@@ -144,6 +145,12 @@ abstract class CollectionTests {
 			flException = true;
 		}
 		assertTrue(flException);
+	}
+	
+	@Test
+	void emptyCollectionTest() {
+		collection = createCollection();
+		assertArrayEquals(new Integer[0], collection.toArray(new Integer[0]));
 	}
 
 }

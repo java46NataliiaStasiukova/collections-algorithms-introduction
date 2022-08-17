@@ -245,17 +245,21 @@ public class LinkedList<T> implements List<T> {
 
 	public void reverse() {
 		//TODO
-		Node<T> previos = null;
-		Node<T> current = head;
-		Node<T> nextNode = null;
+		//no cycles allowed(recursion);
 		tail = head;
-		while(current != null) {
-			nextNode = current.next;
-			current.next = previos;
-			previos = current;
-			current = nextNode;
+		head = reverse(head);	
+	}
+	
+	public Node<T> reverse(Node<T> node){
+		Node<T> current;
+		if(node.next == null) {
+			return node;
 		}
-		head = previos;
+		current = reverse(node.next);
+		node.next.next = node;
+		node.next = null;
+		
+		return current;
 	}
 
 }
