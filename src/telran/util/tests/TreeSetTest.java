@@ -1,7 +1,7 @@
 package telran.util.tests;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.util.Arrays;
 
@@ -75,3 +75,4 @@ public class TreeSetTest extends SetTests {
 	}
 
 }
+

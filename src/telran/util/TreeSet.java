@@ -241,24 +241,32 @@ public class TreeSet<T> implements SortedSet<T> {
 	private void displayRotated(Node<T> root, int level) {
 		if (root != null) {
 			displayRotated(root.right, level + 1);
-			disolayRoot(root, level);
+			displayRoot(root, level);
 			displayRotated(root.left, level + 1);
 		}
 		
 		
 	}
-	private void disolayRoot(Node<T> root, int level) {
+	private void displayRoot(Node<T> root, int level) {
 		System.out.printf("%s%s\n", FILL_SYMBOL.repeat(level * N_SYMBOLS_PER_LEVEL), root.obj);
 		
 	}
 	public void displayAsDirectory() {
 		//TODO
 		//see test for getting output form
+		displayAsDirectory(root, 0);
+	}
+	private void displayAsDirectory(Node<T> root, int level) {
+		if(root != null) {
+			displayRoot(root, level);
+			displayAsDirectory(root.left, level + 1);
+			displayAsDirectory(root.right, level + 1);
+		}
+		
 	}
 	public int height() {
 		
 		return height(root);
-		
 	}
 	private int height(Node<T> root) {
 		int res = 0;
@@ -286,7 +294,19 @@ public class TreeSet<T> implements SortedSet<T> {
 	 */
 	public void inversion() {
 		//TODO
+		invertion(root);
 		
+	}
+	private Node<T> invertion(Node<T> root) {
+		if(root == null) {
+			return root;
+		}
+		Node<T> left = invertion(root.left);
+		Node<T> right = invertion(root.right);
+		root.left = right;
+		root.right = left;
+		
+		return root;
 	}
 
 }
