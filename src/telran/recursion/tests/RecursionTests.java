@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import telran.recursion.LineRecursion;
 import static telran.recursion.LineRecursion.*;
 
 class RecursionTests {

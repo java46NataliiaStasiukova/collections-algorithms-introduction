@@ -252,8 +252,6 @@ public class TreeSet<T> implements SortedSet<T> {
 		
 	}
 	public void displayAsDirectory() {
-		//TODO
-		//see test for getting output form
 		displayAsDirectory(root, 0);
 	}
 	private void displayAsDirectory(Node<T> root, int level) {
@@ -289,12 +287,9 @@ public class TreeSet<T> implements SortedSet<T> {
 		}
 		return res;
 	}
-	/**
-	 * tree inversion - swap of left and right subtrees
-	 */
 	public void inversion() {
-		//TODO
 		invertion(root);
+		comp = comp.reversed();
 		
 	}
 	private Node<T> invertion(Node<T> root) {
@@ -307,6 +302,17 @@ public class TreeSet<T> implements SortedSet<T> {
 		root.right = left;
 		
 		return root;
+	}
+	public void balance() {
+		//TODO
+		//create sorted Node<T>[]
+		//balance creates new root for each part [left, right] of Node<T>[]
+		//root.left  = balance call from left (left, rootIndex - 1)
+		//root.right = balance call from right (rootIndex + 1, right)
+		//don't forget about parent
+		
+		
+		
 	}
 
 }
