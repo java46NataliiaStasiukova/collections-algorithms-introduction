@@ -3,14 +3,10 @@ package telran.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-
-
-
-public class HashSet<T> implements Set<T> {
+public class HashSet<T> extends AbstractCollection<T> implements Set<T> {
 private static final double DEFAULT_FACTOR = 0.75;
 private static final int DEFAULT_HASH_TABLE_CAPACITY = 16;
 private List<T> [] hashTable;
-private int size;
 private double factor ;
 @SuppressWarnings("unchecked")
 public HashSet(int hashTableCapacity, double factor) {
@@ -23,52 +19,6 @@ public HashSet(int hashTableCapacity) {
 public HashSet() {
 	this(DEFAULT_HASH_TABLE_CAPACITY, DEFAULT_FACTOR);
 }
-
-//private class HashSetIterator implements Iterator<T> {
-////TODO
-//	boolean flNext = false;
-//	int currentInd = 0;
-//	int index = 0;
-//	Iterator<T> it;
-//	T object = null;
-//
-//	@Override
-//	public boolean hasNext() {
-//		return currentInd < hashTable.length;
-//	}
-//
-//	@Override
-//	public T next() {
-//		for(int i = 0; i < hashTable.length; i++) {
-//			List<T> res = hashTable[i];
-//			System.out.println();
-//		}
-//		if(!hasNext()) {
-//			throw new NoSuchElementException();
-//		}
-//		flNext = true;
-//		while(hashTable[currentInd] == null) {
-//			currentInd++;
-//			System.out.println(currentInd);
-//		}
-//		
-//		object = it.next();
-//		System.out.println(object);
-//
-//		return object;
-//	}
-//	@Override
-//	public void remove() {
-//		//TODO
-//		if(!flNext) {
-//			throw new IllegalStateException();
-//		}
-//		HashSet.this.remove(hashTable[currentInd]);
-////		List.this.remove(--currentInd);//to  previous object 
-//		flNext = false;
-//	}
-//}
-
 private class HashSetIterator implements Iterator<T> {
 	Iterator<T> currentIterator;
 	Iterator<T> prevIterator;
@@ -191,12 +141,6 @@ private class HashSetIterator implements Iterator<T> {
 			res = hashTable[index].contains(pattern);
 		}
 		return res;
-	}
-
-	@Override
-	public int size() {
-		
-		return size;
 	}
 
 	@Override

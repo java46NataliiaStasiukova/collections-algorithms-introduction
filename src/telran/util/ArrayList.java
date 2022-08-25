@@ -5,10 +5,9 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 
-public class ArrayList<T> implements List<T> {
+public class ArrayList<T> extends AbstractCollection<T> implements List<T> {
 private static final int DEFAULT_CAPACITY = 16;
 private T[] array;
-private int size;
 
 @SuppressWarnings("unchecked")
 public ArrayList(int capacity) {
@@ -61,12 +60,6 @@ private class ArrayListIterator implements Iterator<T> {
 	}
 
 	@Override
-	public int size() {
-		
-		return size;
-	}
-	
-	@Override
 	public Iterator<T> iterator() {
 		
 		return new ArrayListIterator();
@@ -105,16 +98,6 @@ private class ArrayListIterator implements Iterator<T> {
 		size--;
 	}
 
-	@Override
-	public int indexOf(Object pattern) {
-		for(int i = 0; i < size; i++) {
-			if(array[i].equals(pattern)) {
-				return i;
-			}
-		}
-		
-		return -1;
-	}
 
 	@Override
 	public int lastIndexOf(Object pattern) {

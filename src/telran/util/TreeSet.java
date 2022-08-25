@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class TreeSet<T> implements SortedSet<T> {
+public class TreeSet<T> extends AbstractCollection<T> implements SortedSet<T> {
 	private static class Node<T> {
 		T obj;
 		Node<T> parent;
@@ -21,7 +21,6 @@ public class TreeSet<T> implements SortedSet<T> {
 	private static final int N_SYMBOLS_PER_LEVEL = 2;
 
 	private Node<T> root;
-	int size;
 	Comparator<T> comp;
 	private Node<T> getLeastNodeFrom(Node<T> node) {
 		while(node.left != null) {
@@ -202,12 +201,6 @@ public class TreeSet<T> implements SortedSet<T> {
 	}
 
 	@Override
-	public int size() {
-		
-		return size;
-	}
-
-	@Override
 	public Iterator<T> iterator() {
 		
 		return new TreeSetIterator();
@@ -307,12 +300,6 @@ public class TreeSet<T> implements SortedSet<T> {
 	
 
 	public void balance() {
-		//TODO
-		//create sorted Node<T>[]
-		//balance creates new root for each part [left, right] of Node<T>[]
-		//root.left  = balance call from left (left, rootIndex - 1)
-		//root.right = balance call from right (rootIndex + 1, right)
-		//don't forget about parent	
 		@SuppressWarnings("unchecked")
 		Node<T>[] array = (Node<T>[]) new Node[size];
 		Iterator<T> it = iterator();
@@ -338,5 +325,15 @@ public class TreeSet<T> implements SortedSet<T> {
 				current.right.parent = current;		
 			}
 		return current;	
+	}
+	@Override
+	public T ceiling(T pattern) {
+		// TODO
+		return null;
+	}
+	@Override
+	public T floor(T pattern) {
+		// TODO
+		return null;
 	}
 }
