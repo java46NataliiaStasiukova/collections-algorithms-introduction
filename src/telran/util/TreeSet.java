@@ -303,16 +303,40 @@ public class TreeSet<T> implements SortedSet<T> {
 		
 		return root;
 	}
+	
+	
+
 	public void balance() {
 		//TODO
 		//create sorted Node<T>[]
 		//balance creates new root for each part [left, right] of Node<T>[]
 		//root.left  = balance call from left (left, rootIndex - 1)
 		//root.right = balance call from right (rootIndex + 1, right)
-		//don't forget about parent
-		
-		
-		
+		//don't forget about parent	
+		@SuppressWarnings("unchecked")
+		Node<T>[] array = (Node<T>[]) new Node[size];
+		Iterator<T> it = iterator();
+		int index = 0;
+		while(it.hasNext()) {
+			array[index++] = getNodeOrParent(it.next());
+		}
+		root = balance(array, 0, size - 1);
+		root.parent = null;
 	}
-
+	private Node<T> balance(Node<T>[] array, int left, int right) {
+		if(left > right) {
+			return null;
+		}
+			int middle = (left + right) / 2;
+			Node<T> current = array[middle];
+			current.left = balance(array, left, middle - 1);
+			if(current.left != null) {
+				current.left.parent = current;
+			}
+			current.right = balance(array, middle + 1, right);
+			if(current.right != null) {
+				current.right.parent = current;		
+			}
+		return current;	
+	}
 }

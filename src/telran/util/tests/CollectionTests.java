@@ -123,16 +123,16 @@ abstract class CollectionTests {
 		wrongRemove(it);
 	}
 
-	@Test
-	void removeIfPerformanceTest() {
-		Predicate<Integer> predicate = new AllFalsePredicate().negate();
-		fillArraySequence(largeArray);
-		orderLargeArray();
-		for (int i = 0; i < N_RUNS; i++) {
-			fillCollection(largeArray);
-			collection.removeIf(predicate);
-		}
-	}
+//	@Test
+//	void removeIfPerformanceTest() {
+//		Predicate<Integer> predicate = new AllFalsePredicate().negate();
+//		fillArraySequence(largeArray);
+//		orderLargeArray();
+//		for (int i = 0; i < N_RUNS; i++) {
+//			fillCollection(largeArray);
+//			collection.removeIf(predicate);
+//		}
+//	}
 
 	protected void orderLargeArray() {
 		
