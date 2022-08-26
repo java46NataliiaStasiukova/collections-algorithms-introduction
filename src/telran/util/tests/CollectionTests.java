@@ -1,12 +1,9 @@
-
-
 package telran.util.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -122,16 +119,16 @@ abstract class CollectionTests {
 		wrongRemove(it);
 	}
 
-//	@Test
-//	void removeIfPerformanceTest() {
-//		Predicate<Integer> predicate = new AllFalsePredicate().negate();
-//		fillArraySequence(largeArray);
-//		orderLargeArray();
-//		for (int i = 0; i < N_RUNS; i++) {
-//			fillCollection(largeArray);
-//			collection.removeIf(predicate);
-//		}
-//	}
+	@Test
+	void removeIfPerformanceTest() {
+		//Predicate<Integer> predicate = new AllFalsePredicate().negate();
+		fillArraySequence(largeArray);
+		orderLargeArray();
+		for (int i = 0; i < N_RUNS; i++) {
+			fillCollection(largeArray);
+			collection.removeIf(p -> !(false));
+		}
+	}
 
 	protected void orderLargeArray() {
 		
