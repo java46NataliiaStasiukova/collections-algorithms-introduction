@@ -16,7 +16,6 @@ public class LambdaTests {
 		String expected[] = {
 				"z", "yy", "lmn", "abcd"
 		};
-		//instead of writing the Class:
 		//expression
 		Arrays.sort(stringsInitial, (s1, s2) -> s1.length() - s2.length());
 		assertArrayEquals(expected, stringsInitial);

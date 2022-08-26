@@ -60,22 +60,21 @@ abstract class CollectionTests {
 
 	@Test
 	void removeIfTest() {
-		Predicate<Integer> allFalsePredicate = new AllFalsePredicate();
 		// Nothing removed test
-		assertFalse(collection.removeIf(allFalsePredicate));
+		assertFalse(collection.removeIf(p -> false));
 		assertEquals(expected.length, collection.size());
 		/************************************************************/
 		// even numbers removed test
 		for (int i = 0; i < N_RANDOM_RUNS; i++) {
 			fillRandomCollection();
-			collection.removeIf(new EvenNumbersPredicate());
+			collection.removeIf(p -> p % 2 == 0);
 			for (int num : collection) {
 				assertTrue(num % 2 == 1);
 			}
 		}
 		/**************************************************************/
 		// All removed test
-		assertTrue(collection.removeIf(allFalsePredicate.negate()));
+		assertTrue(collection.removeIf(p -> !false));
 		assertEquals(0, collection.size());
 	}
 
