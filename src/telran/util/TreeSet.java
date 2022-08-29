@@ -347,8 +347,6 @@ public class TreeSet<T> extends AbstractCollection<T> implements SortedSet<T> {
 		if(comp.compare(current.obj, pattern) < 0) {
 			current = ceiling(current.right, pattern);
 		}
-		
-		
 		return current;
 	}
 	@Override

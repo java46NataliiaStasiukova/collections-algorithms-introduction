@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import telran.util.Collection;
+import telran.util.HashSet;
 
 abstract class CollectionTests {
 	protected static final int N_NUMBERS = 10000;
@@ -80,7 +81,6 @@ abstract class CollectionTests {
 		for (int i = 0; i < N_RANDOM_NUMBERS; i++) {
 			collection.add((int) (Math.random() * Integer.MAX_VALUE));
 		}
-
 	}
 
 	@Test
@@ -101,7 +101,6 @@ abstract class CollectionTests {
 		for (int i = collection.size(); i < expected2.length; i++) {
 			assertNull(expected2[i]);
 		}
-
 	}
 
 	@Test
@@ -121,7 +120,6 @@ abstract class CollectionTests {
 
 	@Test
 	void removeIfPerformanceTest() {
-		//Predicate<Integer> predicate = new AllFalsePredicate().negate();
 		fillArraySequence(largeArray);
 		orderLargeArray();
 		for (int i = 0; i < N_RUNS; i++) {
@@ -138,8 +136,6 @@ abstract class CollectionTests {
 		for(int i = 0; i < array.length;i++) {
 			array[i] = i;
 		}
-			
-		
 	}
 
 	protected void wrongRemove(Iterator<Integer> it) {
@@ -156,6 +152,35 @@ abstract class CollectionTests {
 	void emptyCollectionTest() {
 		collection = createCollection();
 		assertArrayEquals(new Integer[0], collection.toArray(new Integer[0]));
+	}
+	
+	@Test
+	void cleanTest() {
+		collection.clean();
+		assertEquals(0, collection.size());
+	}
+	
+	@Test
+	void shuffleTest() {
+		int size = collection.size();
+		Integer array[] = collection.toArray(new Integer[0]);
+		Integer arraySh[] = collection.toShaffleArray(array);
+		assertFalse(Arrays.equals(array, arraySh));
+		collection = new HashSet<Integer>();
+		fillCollection(arraySh);
+		assertEquals(size, collection.size());
+	}
+	
+	@Test
+	void streamTest() {
+		assertEquals(93, collection.stream().mapToInt(x -> x).sum());
+		assertArrayEquals(new Integer[] {-5}, collection.stream()
+				.filter(n -> n < 0).toArray(s -> new Integer[s]));
+		//TODO
+		//for only one stream method call to find out
+		//minimal and maximal values of any collection
+		//Hint: Using IntStream
+		
 	}
 
 }
