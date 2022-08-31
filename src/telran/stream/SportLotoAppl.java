@@ -11,5 +11,5 @@ public class SportLotoAppl {
 		.limit(N_NUMBERS)
 		.forEach(n -> System.out.print(n + " "));
 	}
-
+	
 }

@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -164,23 +166,25 @@ abstract class CollectionTests {
 	void shuffleTest() {
 		int size = collection.size();
 		Integer array[] = collection.toArray(new Integer[0]);
-		Integer arraySh[] = collection.toShaffleArray(array);
+		Integer arraySh [] = collection.toShuffleArray(new Integer[0]);
 		assertFalse(Arrays.equals(array, arraySh));
 		collection = new HashSet<Integer>();
 		fillCollection(arraySh);
 		assertEquals(size, collection.size());
 	}
-	
 	@Test
 	void streamTest() {
 		assertEquals(93, collection.stream().mapToInt(x -> x).sum());
 		assertArrayEquals(new Integer[] {-5}, collection.stream()
-				.filter(n -> n < 0).toArray(s -> new Integer[s]));
+				.filter(n -> n < 0).toArray(size -> new Integer[size]));
 		//TODO
-		//for only one stream method call to find out
-		//minimal and maximal values of any collection
+		//for only one stream method call to find out 
+		// minimal and maximal values of any collection
 		//Hint: Using IntStream
-		
+		Supplier<IntStream> stream = () -> collection.stream().mapToInt(s -> s);
+		assertEquals(40, stream.get().max().getAsInt());
+		assertEquals(-5, stream.get().min().getAsInt());
 	}
+	
 
 }
